@@ -27,10 +27,11 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
 import { specialties } from "@/constants";
+import { useRoleContext } from "@/providers/RoleProvider";
 
 const formSchema = z
   .object({
@@ -54,9 +55,7 @@ const formSchema = z
 
 const RegisterForm = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const role = searchParams.get("role");
-  console.log(role);
+  const { role } = useRoleContext();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,9 +69,9 @@ const RegisterForm = () => {
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     toast("Post has been edited.");
-    const formData = {...data, role }
+    const formData = { ...data, role };
     console.log(formData);
-     router.push("/login");
+    router.push("/login");
   };
 
   return (
@@ -207,7 +206,10 @@ const RegisterForm = () => {
         </CardContent>
         <CardFooter className="text-xl flex justify-center items-center mt-4 text-slate-500">
           Already have an account?
-          <Link href={"/login"} className="ml-3 text-blue-500 underline text-xl font-medium">
+          <Link
+            href={"/login"}
+            className="ml-3 text-blue-500 underline text-xl font-medium"
+          >
             Log in
           </Link>
         </CardFooter>

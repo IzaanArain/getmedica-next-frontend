@@ -7,9 +7,11 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { RoleType } from "@/types";
+import { useRoleContext } from "@/providers/RoleProvider";
 
 const RoleSelctor = () => {
-  const [role, setRole] = useState<"doctor" | "patient" | null>(null);
+  const { role, setRole } = useRoleContext();
   const router = useRouter();
 
   const handleContinue = () => {
@@ -17,8 +19,7 @@ const RoleSelctor = () => {
         toast("Please select a Role",)
         return
     }
-    router.push(`/register/?role=${role}`);
-    setRole(null)
+    router.push(`/register`);
   };
 
   return (
