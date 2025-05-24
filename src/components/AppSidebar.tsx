@@ -1,4 +1,6 @@
-import { CalendarDays, CalendarClock } from "lucide-react";
+"use client";
+
+import { CalendarDays, CalendarClock, BriefcaseMedical } from "lucide-react";
 
 import {
   Sidebar,
@@ -14,26 +16,37 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import getMedicaLogo from "../assets/logo-white.png";
-// Menu items.
-const items = [
+import { useRoleContext } from "@/providers/RoleProvider";
+
+const sidebarLinks = [
   {
-    title: "Availability",
-    url: "/doctor",
+    role: ["patient"],
+    title: "Doctor List",
+    url: "/",
+    icon: BriefcaseMedical,
+  },
+  {
+    role: ["doctor"],
+    title: "Set Availability",
+    url: "/",
     icon: CalendarDays,
   },
   {
+    role: ["doctor", "patient"],
     title: "Appointments",
-    url: "/doctor/appointments",
+    url: "/appointments",
     icon: CalendarClock,
   },
 ];
 
 export function AppSidebar() {
+  const { role } = useRoleContext();
+
   return (
     <Sidebar>
       <SidebarHeader className="bg-[#18A0FB] pt-8">
         <div className="flex flex-col justify-center items-center">
-          <Image src={getMedicaLogo} alt="logo" width={50}/>
+          <Image src={getMedicaLogo} alt="logo" width={50} />
           <span className="font-bold text-white text-2xl mt-2">GETMEDICA</span>
         </div>
       </SidebarHeader>
@@ -44,16 +57,18 @@ export function AppSidebar() {
           </SidebarGroupLabel> */}
           <SidebarGroupContent className="">
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={`${item.url}`}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {sidebarLinks
+                .filter((item) => role && item.role.includes(role))
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={`/${role}${item.url}`}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

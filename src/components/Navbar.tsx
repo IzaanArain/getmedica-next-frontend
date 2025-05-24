@@ -26,11 +26,11 @@ const Navbar = () => {
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          {/* <DropdownMenuItem>
             <Link href={"/profile"}>Profile</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem>
-            <Link href={"/auth"}>Logout</Link>
+            <Link href={"/"}>Logout</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
