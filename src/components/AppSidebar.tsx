@@ -53,7 +53,7 @@ export function AppSidebar() {
                 .filter((item) => role && item.role.includes(role))
                 .map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton asChild isActive={pathname == `/${role}${item.url}`}>
                       <Link href={`/${role}${item.url}`}>
                         <item.icon />
                         <span>{item.title}</span>
