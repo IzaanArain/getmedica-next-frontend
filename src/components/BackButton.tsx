@@ -11,7 +11,7 @@ const BackButton = ({ text, link }: BackButtonProps) => {
     <Link
       href={link}
       className="text-gray-500 hover:underline flex 
-      items-center gap-1 font-bold mb-5"
+      items-center gap-1 font-bold"
     >
       <ArrowLeftCircle size={18} />
       <span>{text}</span>

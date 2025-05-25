@@ -28,10 +28,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import Link from "next/link";
 import { specialties } from "@/constants";
 import { useRoleContext } from "@/providers/RoleProvider";
+import { useRegisterMutation } from "@/services/auth/authMutations";
 
 const formSchema = z
   .object({
@@ -57,26 +57,31 @@ const RegisterForm = () => {
   const router = useRouter();
   const { role } = useRoleContext();
 
+  const { mutate } = useRegisterMutation();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
+      specialization: "",
       confirmPassword: "",
     },
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    toast("Post has been edited.");
-    const formData = { ...data, role };
-    console.log(formData);
-    router.push("/login");
+    const formData = { ...data, role, confirmPassword: undefined };
+    mutate(formData);
   };
+
+  function onSuccess() {
+    router.push("/login");
+  }
 
   return (
     <>
-      <Card className="w-full border-none shadow-none px-8 gap-0">
+      <Card className="w-full border-none shadow-none px-8 py-0 gap-0">
         <CardHeader className="mb-2">
           <CardTitle className="text-4xl">Sign Up</CardTitle>
         </CardHeader>
