@@ -14,26 +14,26 @@ import getMedicaLogo from "../assets/logo-blue.png";
 const Navbar = () => {
   return (
     <div className="bg-[#F2F5F6] text-white py-4 px-5 flex justify-between">
-       <Image src={getMedicaLogo} alt="logo" width={40} />
+      <Image src={getMedicaLogo} alt="logo" width={40} />
       <div className="flex items-center">
         <DropdownMenu>
-        <DropdownMenuTrigger className="focus:outline-none">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback className="text-black">Z</AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          {/* <DropdownMenuItem>
+          <DropdownMenuTrigger className="focus:outline-none">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback className="text-black">Z</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {/* <DropdownMenuItem>
             <Link href={"/profile"}>Profile</Link>
           </DropdownMenuItem> */}
-          <DropdownMenuItem>
-            <Link href={"/"}>Logout</Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            <Link href={"/"}>
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </Link>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

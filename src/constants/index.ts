@@ -13,13 +13,13 @@ export const sidebarLinks = [
   {
     role: ["patient"],
     title: "Doctor List",
-    url: "/",
+    url: "",
     icon: BriefcaseMedical,
   },
   {
     role: ["doctor"],
     title: "Set Availability",
-    url: "/",
+    url: "",
     icon: CalendarDays,
   },
   {
