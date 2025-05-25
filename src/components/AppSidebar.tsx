@@ -1,7 +1,5 @@
 "use client";
 
-import { CalendarDays, CalendarClock, BriefcaseMedical } from "lucide-react";
-
 import {
   Sidebar,
   SidebarHeader,
@@ -17,31 +15,25 @@ import Link from "next/link";
 import Image from "next/image";
 import getMedicaLogo from "../assets/logo-white.png";
 import { useRoleContext } from "@/providers/RoleProvider";
-
-const sidebarLinks = [
-  {
-    role: ["patient"],
-    title: "Doctor List",
-    url: "/",
-    icon: BriefcaseMedical,
-  },
-  {
-    role: ["doctor"],
-    title: "Set Availability",
-    url: "/",
-    icon: CalendarDays,
-  },
-  {
-    role: ["doctor", "patient"],
-    title: "Appointments",
-    url: "/appointments",
-    icon: CalendarClock,
-  },
-];
+import { sidebarLinks } from "@/constants";
+import { useAuthStore } from "@/store/authStore";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export function AppSidebar() {
   const { role } = useRoleContext();
+  const { user } = useAuthStore();
 
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const currentPathRole = pathname.split("/")[1];
+    if (user && user.role !== currentPathRole) {
+      router.push(`/${user.role}`);
+    }
+  }, [user, pathname, router]);
+  
   return (
     <Sidebar>
       <SidebarHeader className="bg-[#18A0FB] pt-8">

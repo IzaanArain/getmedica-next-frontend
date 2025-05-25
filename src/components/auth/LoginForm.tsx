@@ -21,9 +21,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import Link from "next/link";
 import { useRoleContext } from "@/providers/RoleProvider";
+import { useloginMutation } from "@/services/auth/authMutations";
+import { UserInterface } from "@/types";
 
 const formSchema = z.object({
   email: z
@@ -37,6 +38,8 @@ const LoginForm = () => {
   const router = useRouter();
   const { role } = useRoleContext();
 
+  const { mutate } = useloginMutation();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,20 +49,17 @@ const LoginForm = () => {
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    toast("Post has been edited.", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
-      action: {
-        label: "Undo",
-        onClick: () => console.log("Undo"),
-      },
-    });
+    mutate(data);
+  };
+
+  function onSuccess(data: UserInterface) {
     console.log(data);
     router.push(`/${role}`);
-  };
+  }
 
   return (
     <>
-      <Card className="w-full border-none shadow-none px-8 gap-0">
+      <Card className="w-full border-none shadow-none px-8 py-0 gap-0">
         <CardHeader className="mb-3">
           <CardTitle className="text-4xl">Log In</CardTitle>
         </CardHeader>
