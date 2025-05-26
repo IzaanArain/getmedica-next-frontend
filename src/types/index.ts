@@ -1,28 +1,39 @@
-
-
 export type RoleType = "doctor" | "patient" | null;
 
 export interface UserInterface {
-  _id?: string
-  name: string
-  email: string
-  role: RoleType
-  specialization: string | null
-  createdAt?: string
-  updatedAt?: string
+  _id?: string;
+  name: string;
+  email: string;
+  role: RoleType;
+  specialization: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
-export interface UserCredentials { email: string; password: string }
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
 
 export interface ApiResponse<T> {
-  statusCode: number
-  message: string
-  data: T
+  statusCode: number;
+  message: string;
+  data: T;
 }
-
 
 export interface ApiErrorResponse {
-  statusCode: number
-  message: string | string[]
-  error: string
+  statusCode: number;
+  message: string | string[];
+  error: string;
 }
 
+export interface TimeSlot {
+  from: string;
+  to: string;
+}
+
+export interface DaySchedule {
+  doctorId?: string;
+  day: string;
+  enabled: boolean;
+  slots: TimeSlot[];
+}

@@ -4,10 +4,8 @@ import Image from "next/image";
 import doctorImage from "../assets/doctor.jpg";
 import PatientImage from "../assets/patient.jpg";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { RoleType } from "@/types";
 import { useRoleContext } from "@/providers/RoleProvider";
 
 const RoleSelctor = () => {

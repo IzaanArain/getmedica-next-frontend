@@ -29,3 +29,17 @@ export const sidebarLinks = [
     icon: CalendarClock,
   },
 ];
+
+export const doctorsData = [
+  { name: "Dr. Samantha", specialization: "Cardiology" },
+  { name: "Dr. Raj Patel", specialization: "Cardiology" },
+  { name: "Dr. Sarah Lin", specialization: "Cardiology" },
+  { name: "Dr. Juan Gomez", specialization: "Cardiology" },
+  { name: "Dr. Emily Chen", specialization: "Cardiology" },
+  { name: "Dr. Alex Morgan", specialization: "Cardiology" },
+  { name: "Dr. Priya Mehta", specialization: "Cardiology" },
+  { name: "Dr. David Lee", specialization: "Cardiology" },
+  { name: "Dr. Olivia Brown", specialization: "Cardiology" },
+  { name: "Dr. Michael Nguyen", specialization: "Cardiology" }
+];
+
