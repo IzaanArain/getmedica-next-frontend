@@ -8,7 +8,7 @@ interface AuthStoreActions {
 
 interface AuthStoreInterface {
   user: UserInterface | null;
-  setUser: (user: UserInterface) => void;
+  setUser: (user: UserInterface | null) => void;
 }
 
 export const useAuthStore = create<AuthStoreInterface>()(

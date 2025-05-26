@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import getMedicaLogo from "../assets/logo-blue.png";
+import Logoutbutton from "./auth/LogoutButton";
 
 const Navbar = () => {
   return (
@@ -29,9 +30,7 @@ const Navbar = () => {
             {/* <DropdownMenuItem>
             <Link href={"/profile"}>Profile</Link>
           </DropdownMenuItem> */}
-            <Link href={"/"}>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </Link>
+             <Logoutbutton />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -28,7 +28,7 @@ export const useRegisterMutation = (onSuccess?: () => void) => {
 
 export const useloginMutation = (onSuccess?: (data: UserInterface) => void) => {
   const router = useRouter();
-  const { role, setRole } = useRoleContext();
+  const { setRole } = useRoleContext();
   const { setUser } = useAuthStore();
   return useMutation({
     mutationFn: (credentials: UserCredentials) =>
@@ -38,9 +38,28 @@ export const useloginMutation = (onSuccess?: (data: UserInterface) => void) => {
       const data = res.data;
       toast.success(message, { position: "top-right" });
       setUser(data);
-      setRole(data.role)
+      setRole(data.role);
       onSuccess?.(res.data);
       router.push(`/${data.role}`);
+    },
+    onError: (error) => {
+      const message = extractErrorMessage(error);
+      toast.error(message, { position: "top-right" });
+    },
+  });
+};
+
+export const useLogoutMutation = (onSuccess?: () => void) => {
+  const router = useRouter();
+  const { setUser } = useAuthStore();
+  return useMutation({
+    mutationFn: () => authService.logout(),
+    onSuccess: (res) => {
+      const message = res.message;
+      toast.success(message, { position: "top-right" });
+      setUser(null);
+      onSuccess?.();
+      router.push("/");
     },
     onError: (error) => {
       const message = extractErrorMessage(error);

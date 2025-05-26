@@ -12,9 +12,15 @@ const login = async (credentials: UserCredentials) => {
   return res.data;
 };
 
+const logout = async () => {
+  const res = await axiosClient.post(apiUrls.logout);
+  return res.data;
+};
+
 const authService = {
   register,
   login,
+  logout
 };
 
 export default authService;
