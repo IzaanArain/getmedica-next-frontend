@@ -1,6 +1,6 @@
 
-const BookingPage = () => {
-    return ( <div>Booking Page</div> );
+const DoctorBookingPage = () => {
+    return ( <div>Doctor Booking Page</div> );
 }
  
-export default BookingPage;
+export default DoctorBookingPage;

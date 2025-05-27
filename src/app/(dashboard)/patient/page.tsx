@@ -1,3 +1,5 @@
+'use client';
+
 import {
     Select,
     SelectContent,
@@ -16,12 +18,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { doctorsData } from "@/constants";
 import Image from "next/image";
-import doctorImage from "../../../assets/doctor.jpg";
+import doctorImage from "@/assets/doctor.jpg";
 import { Calendar1, GraduationCap, Star, MoveRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useUserQuery } from "@/services/users/userQuery";
+import { UserInterface } from "@/types";
 
 const DoctorListingPage = () => {
+
+    const { data, isPending } = useUserQuery({role: 'doctor'})
+    if (isPending) {
+      return (
+        <div className="p-6 text-3xl">
+          <span>...Loading</span>
+        </div>
+      );
+    }
     return (
         <div className="p-6">
             <h1 className="text-3xl">Doctors Listing</h1>
@@ -42,9 +55,9 @@ const DoctorListingPage = () => {
 
             <div className="max-h-full">
                 <div className="flex flex-wrap gap-6 max-h-[600px] overflow-scroll p-4 h">
-                    {doctorsData.map((doc, index) => (
-                        <Link key={`${doc.name}-${index}`} href={'/patient/book'} className="w-full md:w-[40%] lg:w-[32%]">
-                            <Card className="py-4">
+                    {data?.map((doc: UserInterface, index: number) => (
+                        <Link key={`${doc.name}-${index}`} href={`/patient/book/${doc._id}`} className="w-full md:w-[40%] lg:w-[32%]">
+                            <Card className="py-4 gap-3">
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                         <div>
@@ -72,12 +85,12 @@ const DoctorListingPage = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-end">
-                                        <Button className="rounded-full bg-blue-200">
-                                            <MoveRight className="text-blue-500" />
+                                        <Button className="rounded-full bg-blue-200 text-blue-500 hover:bg-blue-500 hover:text-white">
+                                            <MoveRight  />
                                         </Button>
                                     </div>
                                 </CardContent>
-                            </Card>
+                            </Card> 
                         </Link>
                     ))}
                 </div>

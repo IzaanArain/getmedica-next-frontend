@@ -32,6 +32,9 @@ import Link from "next/link";
 import { specialties } from "@/constants";
 import { useRoleContext } from "@/providers/RoleProvider";
 import { useRegisterMutation } from "@/services/auth/authMutations";
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from "react";
+import { Visibility } from "@/types";
 
 const formSchema = z
   .object({
@@ -44,9 +47,7 @@ const formSchema = z
     confirmPassword: z
       .string()
       .min(1, { message: "Confirm password is required" }),
-    specialization: z.string({
-      required_error: "Please select an specialization to display.",
-    }),
+    specialization: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -56,7 +57,7 @@ const formSchema = z
 const RegisterForm = () => {
   const router = useRouter();
   const { role } = useRoleContext();
-
+  const [visibility, setVisibility] = useState<Visibility>({ field: 'password', isOpen: false })
   const { mutate } = useRegisterMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -75,8 +76,14 @@ const RegisterForm = () => {
     mutate(formData);
   };
 
+
   function onSuccess() {
     router.push("/login");
+  }
+
+    const handleVisibility = (e:React.MouseEvent<HTMLButtonElement>,field: typeof visibility.field) => {
+    e.preventDefault();
+    setVisibility({field,isOpen:!visibility.isOpen})
   }
 
   return (
@@ -172,12 +179,20 @@ const RegisterForm = () => {
                       Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        className="p-6 border-2 text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0 "
+                      <div className={`flex items-center rounded-md border-2 ${form.formState.errors.password && 'border-destructive'}`}>
+                       <Input
+                        type={visibility.field === 'password' && visibility.isOpen ? "text" : "password"}
+                        className="p-6 border-none shadow-none text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0 "
                         placeholder="Enter password"
                         {...field}
                       />
+                      <Button className="bg-transparent shadow-none text-black hover:bg-transparent" onClick={(e) => handleVisibility(e,'password')}>
+                          {visibility.field === 'password' && visibility.isOpen
+                            ? (<EyeOff className={`size-6 ${form.formState.errors.password && 'text-destructive'}`} />)
+                            : (<Eye className={`size-6 ${form.formState.errors.password && 'text-destructive'}`} />)
+                          }
+                      </Button>
+                     </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -192,12 +207,20 @@ const RegisterForm = () => {
                       Confirm password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        className="p-6 border-2 text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0 "
-                        placeholder="Enter confirm password"
+                      <div className={`flex items-center rounded-md border-2 ${form.formState.errors.password && 'border-destructive'}`}>
+                       <Input
+                        type={visibility.field === 'confirmPassword' && visibility.isOpen ? "text" : "password"}
+                        className="p-6 border-none shadow-none text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0 "
+                        placeholder="Enter password"
                         {...field}
                       />
+                      <Button className="bg-transparent shadow-none text-black hover:bg-transparent" onClick={(e) => handleVisibility(e,'confirmPassword')}>
+                          {visibility.field === 'confirmPassword' && visibility.isOpen
+                            ? (<EyeOff className={`size-6 ${form.formState.errors.password && 'text-destructive'}`} />)
+                            : (<Eye className={`size-6 ${form.formState.errors.password && 'text-destructive'}`} />)
+                          }
+                      </Button>
+                     </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

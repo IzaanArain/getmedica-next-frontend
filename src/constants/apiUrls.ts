@@ -5,4 +5,7 @@ export const apiUrls = {
     login: '/auth/login',
     logout: '/auth/logout',
     weeklySchedule: '/availability',
+    users: '/users',
+    doctor:'/users/doctor',
+    appointments: '/appointments'
 }

@@ -24,7 +24,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRoleContext } from "@/providers/RoleProvider";
 import { useloginMutation } from "@/services/auth/authMutations";
-import { UserInterface } from "@/types";
+import { UserInterface, Visibility } from "@/types";
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z
@@ -37,6 +39,7 @@ const formSchema = z.object({
 const LoginForm = () => {
   const router = useRouter();
   const { role } = useRoleContext();
+  const [visibility, setVisibility] = useState<Visibility>({ field: 'password', isOpen: false })
 
   const { mutate } = useloginMutation();
 
@@ -55,6 +58,11 @@ const LoginForm = () => {
   function onSuccess(data: UserInterface) {
     console.log(data);
     router.push(`/${role}`);
+  }
+
+  const handleVisibility = (e:React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setVisibility({field:'password',isOpen:!visibility.isOpen})
   }
 
   return (
@@ -95,12 +103,20 @@ const LoginForm = () => {
                       Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        className="p-6 border-2 text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0 "
+                     <div className={`flex items-center rounded-md border-2 ${form.formState.errors.password && 'border-destructive'}`}>
+                       <Input
+                        type={visibility.isOpen ? "text" : "password"}
+                        className="p-6 border-none shadow-none text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0 "
                         placeholder="Enter password"
                         {...field}
                       />
+                      <Button className="bg-transparent shadow-none text-black hover:bg-transparent" onClick={handleVisibility}>
+                          {visibility.field === 'password' && visibility.isOpen
+                            ? (<EyeOff className={`size-6 ${form.formState.errors.password && 'text-destructive'}`} />)
+                            : (<Eye className={`size-6 ${form.formState.errors.password && 'text-destructive'}`} />)
+                          }
+                      </Button>
+                     </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

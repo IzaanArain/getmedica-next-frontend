@@ -43,3 +43,26 @@ export const doctorsData = [
   { name: "Dr. Michael Nguyen", specialization: "Cardiology" }
 ];
 
+export const patientData = [
+  "John Smith",
+  "Alice Johnson",
+  "Bob Brown",
+  "Diana Garcia",
+  "Charlie Davis",
+  "Fiona Martinez",
+  "George Clark",
+  "Hannah Miller",
+  "Ethan Jones",
+  "Jane Williams"
+];
+
+
+export const daysOfWeek: string[] = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];

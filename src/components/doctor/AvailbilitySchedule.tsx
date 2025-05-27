@@ -6,22 +6,11 @@ import { Plus, Minus } from "lucide-react";
 import { useAvailabiltyQuery } from "@/services/availability/availabilityQuery";
 import { DaySchedule, TimeSlot } from "@/types";
 import { useAvailabiltyMutation } from "@/services/availability/AvailbilityMutaition";
-import { useAuthStore } from "@/store/authStore";
-
-const daysOfWeek: string[] = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
+import { daysOfWeek } from "@/constants";
 
 const AvailabilitySchedule = () => {
   const { data, isPending, refetch } = useAvailabiltyQuery();
   const { mutate } = useAvailabiltyMutation();
-  const { user } = useAuthStore();
   const [schedule, setSchedule] = useState<DaySchedule[]>(
     daysOfWeek.map((day) => ({
       day,
@@ -100,9 +89,7 @@ const AvailabilitySchedule = () => {
         slots: item.slots.filter((slot) => slot.from !== "" || slot.to !== ""),
       }))
       .filter((item) => item.slots.length > 0);
-    console.log(filteredData);
     mutate(filteredData);
-    // refetch();
   };
 
   return (
@@ -112,9 +99,7 @@ const AvailabilitySchedule = () => {
           {schedule.map((item, index) => (
             <div key={`${item.day}-${index}`} className="flex gap-x-12">
               <div className="flex-1 flex flex-row-reverse justify-end items-center p-5">
-                <label htmlFor="" className="flex p-2 text-xl">
-                  {item.day}
-                </label>
+                <label htmlFor="" className="flex p-2 text-xl">{item.day}</label>
                 <input
                   type="checkbox"
                   className="text-5xl scale-150"
@@ -123,20 +108,13 @@ const AvailabilitySchedule = () => {
                 />
               </div>
               <div
-                className={`flex-7 flex flex-col justify-center ${
-                  item.enabled && "border-b-2 py-5"
-                } `}
-              >
+                className={`flex-7 flex flex-col justify-center ${item.enabled && "border-b-2 py-5"} `}>
                 {item.enabled ? (
                   item.slots.map((slot, slotIndex) => (
                     <div
-                      key={slotIndex}
-                      className="flex justify-between p-2 gap-10"
-                    >
+                      key={slotIndex} className="flex justify-between p-2 gap-10">
                       <div className="flex-2 flex items-center">
-                        <label htmlFor="" className="text-xl mr-4">
-                          from
-                        </label>
+                        <label htmlFor="" className="text-xl mr-4">from</label>
                         <input
                           type="time"
                           className="flex-3 border-2 rounded-xl py-4 px-4"
@@ -147,9 +125,7 @@ const AvailabilitySchedule = () => {
                         />
                       </div>
                       <div className="flex-2 flex  items-center">
-                        <label htmlFor="" className="text-xl mr-4">
-                          to
-                        </label>
+                        <label htmlFor="" className="text-xl mr-4">to</label>
                         <input
                           type="time"
                           className="flex-3 rounded-xl border-2 py-4 px-4"
@@ -160,16 +136,10 @@ const AvailabilitySchedule = () => {
                         />
                       </div>
                       <div className="flex-1 flex justify-around items-center">
-                        <Button
-                          className="bg-blue-600"
-                          onClick={(e) => removeSlot(e, index, slotIndex)}
-                        >
+                        <Button className="bg-blue-600" onClick={(e) => removeSlot(e, index, slotIndex)}>
                           <Minus />
                         </Button>
-                        <Button
-                          className="bg-blue-600"
-                          onClick={(e) => addSlot(e, index)}
-                        >
+                        <Button className="bg-blue-600" onClick={(e) => addSlot(e, index)}>
                           <Plus />
                         </Button>
                       </div>
@@ -187,7 +157,7 @@ const AvailabilitySchedule = () => {
         <div className="flex justify-end py-8">
           <input
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
           />
         </div>
       </form>
