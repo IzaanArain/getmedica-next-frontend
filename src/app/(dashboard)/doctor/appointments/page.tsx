@@ -15,21 +15,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AppointmentInterface } from "@/types";
+import { AppointmentInterface, WeeklyScheduleInterface } from "@/types";
 import doctorImage from "@/assets/doctor.jpg";
 import { CalendarDays, Clock, Phone } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
-import { startOfWeek, addDays, format, parse, parseISO } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
-import { DoctorScheduleInterface } from "@/types";
 import { useAppointmentQuery } from "@/services/Appointments/appointmentQuery";
 import { useAuthStore } from "@/store/authStore";
 import { weeklyScheduleWithDates } from "@/utils/weeklyScheduleWithDates";
 
 const AppointmentPage = () => {
-  const [doctorSchedule, setDoctorSchedule] = useState<DoctorScheduleInterface[]>();
+  const [doctorSchedule, setDoctorSchedule] = useState<WeeklyScheduleInterface[]>();
   const [selectedDayId, setSelectedDayId] = useState<string>();
 
   const { data, isPending } = useAppointmentQuery();
@@ -105,7 +104,7 @@ const AppointmentPage = () => {
       </div>
 
       <div className="flex justify-between items-center gap-2 flex-wrap">
-        {doctorSchedule?.map((item, index) => (
+        {doctorSchedule?.map((item: WeeklyScheduleInterface, index) => (
           <div
             key={`${item.date}-${index}`}
             className="flex-1 flex flex-col items-center gap-3"

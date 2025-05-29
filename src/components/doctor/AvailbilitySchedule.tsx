@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus } from "lucide-react";
 import { useAvailabiltyQuery } from "@/services/availability/availabilityQuery";
-import { DaySchedule, TimeSlot } from "@/types";
+import { CreateTimeSlot, DaySchedule } from "@/types";
 import { useAvailabiltyMutation } from "@/services/availability/AvailbilityMutaition";
 import { daysOfWeek } from "@/constants";
 
@@ -49,7 +49,7 @@ const AvailabilitySchedule = () => {
   const updateSlot = (
     dayIndex: number,
     slotIndex: number,
-    field: keyof TimeSlot,
+    field: keyof CreateTimeSlot,
     value: string
   ) => {
     setSchedule((prev) => {
@@ -110,7 +110,7 @@ const AvailabilitySchedule = () => {
               <div
                 className={`flex-7 flex flex-col justify-center ${item.enabled && "border-b-2 py-5"} `}>
                 {item.enabled ? (
-                  item.slots.map((slot, slotIndex) => (
+                  item.slots.map((slot: CreateTimeSlot, slotIndex) => (
                     <div
                       key={slotIndex} className="flex justify-between p-2 gap-10">
                       <div className="flex-2 flex items-center">

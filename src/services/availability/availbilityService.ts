@@ -7,14 +7,14 @@ export const getWeeklySchedule = async () => {
   return res.data;
 };
 
-const createAndUpadateWeeklySchedule = async (data: DaySchedule[]) => {
+const createAndUpdateWeeklySchedule = async (data: DaySchedule[]) => {
   const res = await axiosClient.post(apiUrls.weeklySchedule,data);
   return res.data;
 }
 
 const availabilityService = {
     getWeeklySchedule,
-    createAndUpadateWeeklySchedule,
+    createAndUpdateWeeklySchedule,
 }
 
 export default availabilityService;

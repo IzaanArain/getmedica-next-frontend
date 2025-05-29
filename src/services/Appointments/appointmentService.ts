@@ -1,8 +1,8 @@
 import { apiUrls } from "@/constants/apiUrls";
 import { axiosClient } from "@/lib/axios/client";
-import { ApiResponse, AppointmentInterface } from "@/types";
+import { ApiResponse, AppointmentInterface, CreateAppointmentInterface } from "@/types";
 
-const createAppointment = async (data: AppointmentInterface) => {
+const createAppointment = async (data: CreateAppointmentInterface) => {
   const res = await axiosClient.post(apiUrls.appointments, data);
   return res.data;
 }

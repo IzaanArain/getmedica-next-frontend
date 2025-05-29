@@ -14,14 +14,13 @@ import { weeklyScheduleWithDates } from "@/utils/weeklyScheduleWithDates";
 
 
 const BookingPage = () => {
-  const params = useParams();
-  const doctorId = params?.id as string;
-  const [doctorSchedule, setDoctorSchedule] =
-    useState<DoctorScheduleInterface[]>();
+  const params = useParams<{id:string}>();
+  const doctorId = params.id;
+  const [doctorSchedule, setDoctorSchedule] = useState<DoctorScheduleInterface[]>();
   const [selectedDaySlots, setSelectedDaySlots] = useState<TimeSlot[]>();
-  const [selectedDayId, setSelectedDayId] = useState<string>();
-  const [slotId, setSlotId] = useState<string>();
-  const [reason, setReason] = useState<string>();
+  const [selectedDayId, setSelectedDayId] = useState<string>("");
+  const [slotId, setSlotId] = useState<string>("");
+  const [reason, setReason] = useState<string>("");
   const [appointment, setAppointment] = useState<{
     reason: string;
     slotId: string;
@@ -66,8 +65,8 @@ const BookingPage = () => {
 
   const handleSlotSelection = (
     e: React.MouseEvent<HTMLButtonElement>,
-    slots?: TimeSlot[],
-    id?: string
+    id: string,
+    slots: TimeSlot[],
   ) => {
     e.preventDefault();
     setSelectedDayId(id);
@@ -76,7 +75,7 @@ const BookingPage = () => {
 
   const handleSelectTime = (
     e: React.MouseEvent<HTMLButtonElement>,
-    slotId?: string
+    slotId: string
   ) => {
     e.preventDefault();
     setSlotId(slotId);
@@ -117,7 +116,7 @@ const BookingPage = () => {
 
       <h1 className="text-3xl mt-4">Select Day</h1>
       <div className="flex justify-between items-center gap-2 flex-wrap">
-        {doctorSchedule?.map((item) => (
+        {doctorSchedule?.map((item:DoctorScheduleInterface) => (
           <div
             key={item._id}
             className="flex-1 flex flex-col items-center gap-3"
@@ -131,7 +130,7 @@ const BookingPage = () => {
                   ? "bg-blue-500 text-white"
                   : "bg-slate-200 text-black"
               }`}
-              onClick={(e) => handleSlotSelection(e, item.slots, item?._id)}
+              onClick={(e) => handleSlotSelection(e, item._id, item.slots)}
             >
               {item.date}
             </Button>
@@ -149,7 +148,7 @@ const BookingPage = () => {
           </div>
         ) : (
           <div className="flex flex-wrap gap-2">
-            {selectedDaySlots.map((slot, index) => (
+            {selectedDaySlots.map((slot:TimeSlot, index: number) => (
               <Button
                 key={`${slot._id}-${index}`}
                 className={`flex-1 p-6 hover:bg-blue-500 hover:text-white ${
@@ -179,7 +178,7 @@ const BookingPage = () => {
             className=" bg-blue-500 text-white hover:bg-blue-600 hover:text-white"
             onClick={handleBookAppointment}
           >
-            {isPending ? (
+            {isAppointmentPending ? (
               <span>...Loading</span>
             ) : (
               <span>Book Appointment</span>

@@ -1,8 +1,8 @@
 import { apiUrls } from "@/constants/apiUrls";
 import { axiosClient } from "@/lib/axios/client";
-import { ApiResponse, UserCredentials, UserInterface } from "@/types";
+import { ApiResponse, CreateUserInterface, UserCredentials, UserInterface } from "@/types";
 
-const register = async (userData: UserInterface) => {
+const register = async (userData: CreateUserInterface) => {
   const res = await axiosClient.post(apiUrls.register, userData);
   return res.data;
 };

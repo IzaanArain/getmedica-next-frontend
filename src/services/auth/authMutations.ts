@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import authService from "./authService";
-import { UserCredentials, UserInterface } from "@/types";
+import { CreateUserInterface, UserCredentials, UserInterface } from "@/types";
 import { toast } from "sonner";
 import { extractErrorMessage } from "@/utils/extractErrorMessage";
 import { useAuthStore } from "@/store/authStore";
@@ -12,7 +12,7 @@ import { useRoleContext } from "@/providers/RoleProvider";
 export const useRegisterMutation = (onSuccess?: () => void) => {
   const router = useRouter();
   return useMutation({
-    mutationFn: (userData: UserInterface) => authService.register(userData),
+    mutationFn: (userData: CreateUserInterface) => authService.register(userData),
     onSuccess: (res) => {
       const message = res.message;
       toast.success(message, { position: "top-right" });

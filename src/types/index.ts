@@ -9,6 +9,16 @@ export interface UserInterface {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface CreateUserInterface {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string
+  role: RoleType;
+  specialization?: string;
+}
+
 export interface UserCredentials {
   email: string;
   password: string;
@@ -35,14 +45,19 @@ export interface TimeSlot {
   updatedAt: string;
 }
 
+export interface CreateTimeSlot {
+  from: string;
+  to: string;
+}
+
 export interface DaySchedule {
-  _id: string;
+  _id?: string;
   doctorId?: string;
   day: string;
   enabled: boolean;
-  slots: TimeSlot[];
-  createdAt: string;
-  updatedAt: string;
+  slots: CreateTimeSlot[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Visibility {
@@ -53,8 +68,19 @@ export interface Visibility {
 export interface DoctorScheduleInterface {
   date: string;
   day: string;
-  _id?: string;
-  slots?: TimeSlot[];
+  _id: string;
+  slots: TimeSlot[];
+}
+
+export interface WeeklyScheduleInterface {
+  date: string;
+  day: string;
+}
+
+export interface CreateAppointmentInterface {
+  doctorId: string;
+  reason: string;
+  slotId: string;
 }
 
 export interface AppointmentInterface {

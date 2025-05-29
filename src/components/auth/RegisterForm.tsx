@@ -72,7 +72,7 @@ const RegisterForm = () => {
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    const formData = { ...data, role, confirmPassword: undefined };
+    const formData = { ...data, role };
     mutate(formData);
   };
 
