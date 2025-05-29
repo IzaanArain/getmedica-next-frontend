@@ -1,13 +1,13 @@
 export type RoleType = "doctor" | "patient" | null;
 
 export interface UserInterface {
-  _id?: string;
+  _id: string;
   name: string;
   email: string;
   role: RoleType;
   specialization?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 export interface UserCredentials {
   email: string;
@@ -27,22 +27,22 @@ export interface ApiErrorResponse {
 }
 
 export interface TimeSlot {
-  _id?: string;
+  _id: string;
   from: string;
   to: string;
-  dcotor?:string;
-  createdAt?: string;
-  updatedAt?: string;
+  dcotor:string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DaySchedule {
-  _id?: string;
+  _id: string;
   doctorId?: string;
   day: string;
   enabled: boolean;
   slots: TimeSlot[];
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Visibility {
@@ -58,20 +58,11 @@ export interface DoctorScheduleInterface {
 }
 
 export interface AppointmentInterface {
-  _id?:string
-  doctorId?: string;
-  reason?: string;
-  slotId?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface AppointmentListInterface {
-  _id?:string
-  doctor?: UserInterface;
-  patient?: UserInterface;
-  reason?: string;
-  slot?: TimeSlot;
-  createdAt?: string;
-  updatedAt?: string;
+  _id:string
+  doctor: UserInterface;
+  patient: UserInterface;
+  reason: string;
+  slot: TimeSlot;
+  createdAt: string;
+  updatedAt: string;
 }

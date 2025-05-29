@@ -2,48 +2,36 @@
 
 import { useDoctorInfoQuery } from "@/services/users/userQuery";
 import { useParams } from "next/navigation";
-import { startOfWeek, addDays, format, parse } from "date-fns";
+import { format, parse } from "date-fns";
 import React, { useEffect, useState } from "react";
-import {
-  DaySchedule,
-  DoctorScheduleInterface,
-  TimeSlot,
-} from "@/types";
+import { DaySchedule, DoctorScheduleInterface, TimeSlot } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import DoctorInfoCard from "@/components/doctor/DoctorInfoCard";
 import { useAppointmentMutation } from "@/services/Appointments/appointmentMutation";
 import { toast } from "sonner";
+import { weeklyScheduleWithDates } from "@/utils/weeklyScheduleWithDates";
+
 
 const BookingPage = () => {
   const params = useParams();
   const doctorId = params?.id as string;
-  const [doctorSchedule, setDoctorSchedule] = useState<DoctorScheduleInterface[]>();
+  const [doctorSchedule, setDoctorSchedule] =
+    useState<DoctorScheduleInterface[]>();
   const [selectedDaySlots, setSelectedDaySlots] = useState<TimeSlot[]>();
   const [selectedDayId, setSelectedDayId] = useState<string>();
   const [slotId, setSlotId] = useState<string>();
   const [reason, setReason] = useState<string>();
-  const [appointment, setAppointment] = useState<{reason: string; slotId:string}>({reason:"", slotId:""});
+  const [appointment, setAppointment] = useState<{
+    reason: string;
+    slotId: string;
+  }>({ reason: "", slotId: "" });
 
   const { mutate, isPending: isAppointmentPending } = useAppointmentMutation();
 
-  // using date fns to get week dates
-  const weekStartDay = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const weekEndDay = addDays(new Date(weekStartDay), 6);
-  // const week = Array.from({ length: 7, },(_,i)=> {
-  //     const dateTime = addDays(new Date(weekStartDay), i);
-  //     const day = format(dateTime, 'EEEE');
-  //     const date = format(dateTime, 'dd');
-  //     return { date, day: day.slice(0,3).toUpperCase() }
-  // });
-  const week = [...new Array(7)].map((_, i) => {
-    const dateTime = addDays(new Date(weekStartDay), i);
-    const day = format(dateTime, "EEEE");
-    const date = format(dateTime, "dd");
-    return { date, day: day };
-  });
-
   const { data, isPending } = useDoctorInfoQuery(doctorId);
+
+  const week = weeklyScheduleWithDates();
 
   useEffect(() => {
     if (data) {
@@ -79,10 +67,10 @@ const BookingPage = () => {
   const handleSlotSelection = (
     e: React.MouseEvent<HTMLButtonElement>,
     slots?: TimeSlot[],
-    id?:string
+    id?: string
   ) => {
     e.preventDefault();
-    setSelectedDayId(id)
+    setSelectedDayId(id);
     setSelectedDaySlots(slots);
   };
 
@@ -100,17 +88,18 @@ const BookingPage = () => {
 
   const handleBookAppointment = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(!slotId) {
+    if (!slotId) {
       toast.success("Please select a slot", { position: "top-right" });
     }
-     if(!reason && reason?.trim() === "") {
-      toast.success("Please provide a reason for booking appointment", { position: "top-right" });
+    if (!reason && reason?.trim() === "") {
+      toast.success("Please provide a reason for booking appointment", {
+        position: "top-right",
+      });
     }
     mutate({ doctorId, reason, slotId });
     setSlotId("");
     setReason("");
     setSelectedDayId("");
-    
   };
 
   if (isPending) {
@@ -129,14 +118,19 @@ const BookingPage = () => {
       <h1 className="text-3xl mt-4">Select Day</h1>
       <div className="flex justify-between items-center gap-2 flex-wrap">
         {doctorSchedule?.map((item) => (
-          <div key={item._id} className="flex-1 flex flex-col items-center gap-3">
+          <div
+            key={item._id}
+            className="flex-1 flex flex-col items-center gap-3"
+          >
             <div>
               <span>{item.day}</span>
             </div>
             <Button
-              className={`w-full p-6 hover:bg-blue-500 hover:text-white ${selectedDayId === item._id 
-                ? 'bg-blue-500 text-white'
-                : 'bg-slate-200 text-black'}`}
+              className={`w-full p-6 hover:bg-blue-500 hover:text-white ${
+                selectedDayId === item._id
+                  ? "bg-blue-500 text-white"
+                  : "bg-slate-200 text-black"
+              }`}
               onClick={(e) => handleSlotSelection(e, item.slots, item?._id)}
             >
               {item.date}
@@ -158,9 +152,11 @@ const BookingPage = () => {
             {selectedDaySlots.map((slot, index) => (
               <Button
                 key={`${slot._id}-${index}`}
-                className={`flex-1 p-6 hover:bg-blue-500 hover:text-white ${slotId === slot._id 
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-slate-200 text-black'}`}
+                className={`flex-1 p-6 hover:bg-blue-500 hover:text-white ${
+                  slotId === slot._id
+                    ? "bg-blue-500 text-white"
+                    : "bg-slate-200 text-black"
+                }`}
                 onClick={(e) => handleSelectTime(e, slot._id)}
               >
                 {format(parse(slot.from, "HH:mm", new Date()), "h:mm a")}
@@ -183,7 +179,11 @@ const BookingPage = () => {
             className=" bg-blue-500 text-white hover:bg-blue-600 hover:text-white"
             onClick={handleBookAppointment}
           >
-           { isPending ? <span>...Loading</span> :  <span>Book Appointment</span> }
+            {isPending ? (
+              <span>...Loading</span>
+            ) : (
+              <span>Book Appointment</span>
+            )}
           </Button>
         </div>
       </div>

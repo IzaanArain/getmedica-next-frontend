@@ -15,9 +15,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AppointmentListInterface, UserInterface } from "@/types";
+import { AppointmentInterface } from "@/types";
 import doctorImage from "@/assets/doctor.jpg";
-import { CalendarDays, Clock, Star } from "lucide-react";
+import { CalendarDays, Clock, Phone } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useAppointmentQuery } from "@/services/Appointments/appointmentQuery";
@@ -51,7 +51,7 @@ const AppointmentPage = () => {
         </form>
       </div>
       <div className="flex flex-wrap gap-6 max-h-[600px] overflow-scroll p-4">
-        {data?.map((item: AppointmentListInterface, index: number) => (
+        {data?.map((item: AppointmentInterface, index: number) => (
           <div
             key={`${item._id}-${index}`}
             className="w-full md:w-[40%] lg:w-[32%] border-t-4 border-blue-500 rounded-xl"
@@ -83,28 +83,24 @@ const AppointmentPage = () => {
               </CardHeader>
               <CardContent className="flex flex-col gap-2">
                 <div className="flex gap-3 flex-wrap">
-                  {
-                    item?.createdAt && (<div className="flex gap-2">
+                  <div className="flex gap-2">
                     <CalendarDays className="text-blue-500" />
                     <span>{format(parseISO(item?.createdAt),'d MMM, yyyy')}</span>
-                  </div>)
-                  }
-                  {item?.slot && (
-                    <div className="flex gap-2">
+                  </div>
+                  <div className="flex gap-2">
                       <Clock className="text-blue-500" />
                       <span>
-                        {format(parse(item?.slot?.from, "HH:mm", new Date()),"h:mm a")} - {format(parse(item?.slot?.to, "HH:mm", new Date()),"h:mm a")}
+                        {format(parse(item.slot.from, "HH:mm", new Date()),"h:mm a")} - {format(parse(item.slot.to, "HH:mm", new Date()),"h:mm a")}
                       </span>
                     </div>
-                  )}
                   <div className="flex gap-2">
-                    <Star className="text-blue-500" />
+                    <Phone className="text-blue-500" />
                     <span>+1 22111 154 44 </span>
                   </div>
                 </div>
                 <div>
                   <span className="text-slate-400">
-                    I would like to discuss recent test results.
+                    {item.reason}
                   </span>
                 </div>
               </CardContent>
