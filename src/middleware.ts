@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const protectedPaths = [
-  "/doctor",
-  "/patient",
-];
+const protectedPaths = ["/doctor", "/patient"];
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("jwt");
