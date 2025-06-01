@@ -122,7 +122,7 @@ const BookingPage = () => {
             className="flex-1 flex flex-col items-center gap-3"
           >
             <div>
-              <span>{item.day}</span>
+              <span className="text-blue-500 font-semibold">{item.day}</span>
             </div>
             <Button
               className={`w-full p-6 hover:bg-blue-500 hover:text-white ${

@@ -1,6 +1,7 @@
+import { WeeklyScheduleInterface } from "@/types";
 import { startOfWeek, addDays, format } from "date-fns";
 
-export const weeklyScheduleWithDates = () => {
+export const weeklyScheduleWithDates = (): WeeklyScheduleInterface[] => {
   // using date fns to get week dates
   const weekStartDayWithCurrentDate = startOfWeek(new Date(), {
     weekStartsOn: 1,

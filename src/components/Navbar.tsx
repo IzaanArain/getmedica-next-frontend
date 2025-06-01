@@ -28,7 +28,7 @@ const Navbar = () => {
         <div className="text-black flex flex-col ">
           <span>Welcome</span>
           <span className="font-bold">
-            {user?.role === "doctor" && "Dr "}
+            {user?.role === "doctor" && "Dr. "}
             {user?.name}
           </span>
         </div>
