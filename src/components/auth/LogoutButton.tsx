@@ -9,7 +9,7 @@ const Logoutbutton = () => {
     mutate();
   };
 
-  return <Button onClick={handleLogout} className="bg-transparent text-black hover:bg-transparent w-full">Logout</Button>;
+  return <Button onClick={handleLogout} className="bg-transparent text-black hover:bg-transparent w-full cursor-pointer">Logout</Button>;
 };
 
 export default Logoutbutton;

@@ -13,7 +13,7 @@ import AppointmentCard from "@/components/AppointmentCard";
 
 const AppointmentPage = () => {
     const {data, isPending} = useAppointmentQuery();
-    console.log(data);
+
     if (isPending) {
       return (
         <div className="p-6 text-3xl">
@@ -21,6 +21,7 @@ const AppointmentPage = () => {
         </div>
       );
     }
+    
   return (
     <div className="p-4">
       <div className="flex justify-between items-center">

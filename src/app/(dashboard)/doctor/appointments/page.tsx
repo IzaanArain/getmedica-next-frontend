@@ -100,7 +100,7 @@ const AppointmentPage = () => {
               className={`w-full p-6 hover:bg-blue-500 hover:text-white ${selectedDayId === item.date
                 ? "bg-blue-500 text-white"
                 : "bg-slate-200 text-black"
-                }`}
+                } cursor-pointer`}
               onClick={(e) => handleSlotSelection(e, item?.date)}
             >
               {item.date}

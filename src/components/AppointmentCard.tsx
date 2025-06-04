@@ -21,12 +21,12 @@ interface AppointmentCardProps {
 const AppointmentCard = ({ data }: AppointmentCardProps) => {
   const { user } = useAuthStore();
   return (
-    <div className={`w-full md:w-[40%] lg:w-[25%] ${user?.role === 'patient'
+    <div className={`h-full md:w-[40%] lg:w-[25%] ${user?.role === 'patient'
       ? 'border-t-4 border-blue-500'
       : 'hover:border-t-4 hover:border-blue-500 '} rounded-xl`}>
       <Card className="py-4 gap-2">
         <CardHeader>
-          <CardTitle className="flex justify-between">
+          <CardTitle className="flex flex-col gap-3 xl:flex-row xl:justify-between">
             <div className="flex items-center gap-2">
               <div>
                 <Image
@@ -39,7 +39,7 @@ const AppointmentCard = ({ data }: AppointmentCardProps) => {
               </div>
               <div className="flex flex-col gap-3">
                 {user?.role === "doctor" && <h1>{data.patient.name}</h1>}
-                {user?.role === "patient" && <h1>{data.doctor.name}</h1>}
+                {user?.role === "patient" && <h1>Dr. {data.doctor.name}</h1>}
                 {user?.role === "patient" && (
                   <span className="font-light text-blue-500">
                     {data.doctor.specialization}
@@ -63,7 +63,8 @@ const AppointmentCard = ({ data }: AppointmentCardProps) => {
             <div className="flex gap-2">
               <Clock className="text-blue-500" />
               <span>
-                {format(parse(data.slot.from, "HH:mm", new Date()), "h:mm a")}-
+                {format(parse(data.slot.from, "HH:mm", new Date()), "h:mm a")}
+                {" "} - {" "}
                 {format(parse(data.slot.to, "HH:mm", new Date()), "h:mm a")}
               </span>
             </div>

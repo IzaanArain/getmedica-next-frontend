@@ -8,16 +8,17 @@ export const weeklyScheduleWithDates = (): WeeklyScheduleInterface[] => {
   });
   const weekEndDay = addDays(new Date(weekStartDayWithCurrentDate), 6);
   // const week = Array.from({ length: 7, },(_,i)=> {
-  //     const dateTime = addDays(new Date(weekStartDay), i);
-  //     const day = format(dateTime, 'EEEE');
-  //     const date = format(dateTime, 'dd');
+  //     const dateObj = addDays(new Date(weekStartDay), i);
+  //     const day = format(dateObj, 'EEEE');
+  //     const date = format(dateObj, 'dd');
   //     return { date, day: day.slice(0,3).toUpperCase() }
   // });
   const week = [...new Array(7)].map((_, i) => {
-    const dateTime = addDays(new Date(weekStartDayWithCurrentDate), i);
-    const day = format(dateTime, "EEEE");
-    const date = format(dateTime, "dd");
-    return { date, day: day };
+    const dateObj = addDays(new Date(weekStartDayWithCurrentDate), i);
+    const day = format(dateObj, "EEEE");
+    const date = format(dateObj, "dd");
+    const fullDate = format(dateObj, "yyyy-MM-dd");
+    return { date, day: day, fullDate };
   });
 
   return week;
