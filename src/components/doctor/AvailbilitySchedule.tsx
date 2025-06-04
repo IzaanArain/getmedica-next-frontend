@@ -9,7 +9,7 @@ import { useAvailabiltyMutation } from "@/services/availability/AvailbilityMutai
 import { daysOfWeek } from "@/constants";
 
 const AvailabilitySchedule = () => {
-  const { data, isPending, refetch } = useAvailabiltyQuery();
+  const { data, isPending } = useAvailabiltyQuery();
   const { mutate } = useAvailabiltyMutation();
   const [schedule, setSchedule] = useState<DaySchedule[]>(
     daysOfWeek.map((day) => ({
