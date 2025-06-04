@@ -1,7 +1,5 @@
 import AvailabilitySchedule from "@/components/doctor/AvailbilitySchedule";
 
-
-
 const AvailabilityPage = () => {
 
   return ( <div className="p-6">
