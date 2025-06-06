@@ -7,6 +7,7 @@ import { useAvailabiltyQuery } from "@/services/availability/availabilityQuery";
 import { CreateTimeSlot, DaySchedule } from "@/types";
 import { useAvailabiltyMutation } from "@/services/availability/AvailbilityMutaition";
 import { daysOfWeek } from "@/constants";
+import { toast } from "sonner";
 
 const AvailabilitySchedule = () => {
   const { data, isPending } = useAvailabiltyQuery();
@@ -42,28 +43,50 @@ const AvailabilitySchedule = () => {
     newSchedule[index].enabled = !newSchedule[index].enabled;
     if (newSchedule[index].enabled) {
       newSchedule[index].slots = [{ from: "", to: "" }];
+    } else {
+      newSchedule[index].slots = []
     }
     setSchedule(newSchedule);
   };
 
-  const updateSlot = (
+  const handleSlotsInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
     dayIndex: number,
     slotIndex: number,
-    field: keyof CreateTimeSlot,
-    value: string
   ) => {
-    setSchedule((prev) => {
-      const updated = [...prev];
-      updated[dayIndex].slots[slotIndex][field] = value;
-      return updated;
+    const { name, value } = e.target
+    const newSchedule = [...schedule];
+    const field = name as keyof CreateTimeSlot;
+    const currentSlot = {...newSchedule[dayIndex].slots[slotIndex] , [field]: value};
+    if (field === "from" && currentSlot.to && value >= currentSlot.to) {
+      toast.error(`Start time must be before end time`, { position: "top-right" });
+      return;
+    }
+    if (field === "to" && currentSlot.from && value <= currentSlot.from) {
+      toast.error(`End time must be after start time`, { position: "top-right" });
+      return;
+    }
+    const overlap = newSchedule[dayIndex].slots.some((slot, index) => {
+      if(index === slotIndex) return false
+      return slot.from < currentSlot.to && currentSlot.from < slot.to
     });
+    if (overlap) {
+      toast.error(`slot can over lap with other slots`, { position: "top-right" });
+      return;
+    }
+    newSchedule[dayIndex].slots[slotIndex] = currentSlot;
+    setSchedule(newSchedule);
   };
 
-  const addSlot = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+  const addSlot = (
+    e: React.MouseEvent<HTMLButtonElement>, 
+    dayIndex: number,
+    slotIndex: number,
+  ) => {
     e.preventDefault();
-    const updated = [...schedule];
-    updated[index].slots.push({ from: "", to: "" });
-    setSchedule(updated);
+    const newSchedule = [...schedule];
+    newSchedule[dayIndex].slots.splice(slotIndex + 1 , 0, { from: "", to: "" });
+    setSchedule(newSchedule);
   };
 
   const removeSlot = (
@@ -75,9 +98,9 @@ const AvailabilitySchedule = () => {
     if (schedule[dayIndex].slots.length === 1) {
       return;
     }
-    const updated = [...schedule];
-    updated[dayIndex].slots.splice(slotIndex, 1);
-    setSchedule(updated);
+    const newSchedule = [...schedule];
+    newSchedule[dayIndex].slots.splice(slotIndex, 1);
+    setSchedule(newSchedule);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -117,10 +140,9 @@ const AvailabilitySchedule = () => {
                         <label htmlFor="" className="text-xl mr-4">from</label>
                         <input
                           type="time"
+                          name={`from`}
                           className="flex-3 border-2 rounded-xl py-4 px-4"
-                          onChange={(e) =>
-                            updateSlot(index, slotIndex, "from", e.target.value)
-                          }
+                          onChange={(e) => handleSlotsInputChange(e, index, slotIndex)}
                           value={slot.from}
                         />
                       </div>
@@ -128,10 +150,9 @@ const AvailabilitySchedule = () => {
                         <label htmlFor="" className="text-xl mr-4">to</label>
                         <input
                           type="time"
+                           name={`to`}
                           className="flex-3 rounded-xl border-2 py-4 px-4"
-                          onChange={(e) =>
-                            updateSlot(index, slotIndex, "to", e.target.value)
-                          }
+                          onChange={(e) => handleSlotsInputChange(e, index, slotIndex)}
                           value={slot.to}
                         />
                       </div>
@@ -139,7 +160,7 @@ const AvailabilitySchedule = () => {
                         <Button className="bg-blue-600" onClick={(e) => removeSlot(e, index, slotIndex)}>
                           <Minus />
                         </Button>
-                        <Button className="bg-blue-600" onClick={(e) => addSlot(e, index)}>
+                        <Button className="bg-blue-600" onClick={(e) => addSlot(e, index, slotIndex)}>
                           <Plus />
                         </Button>
                       </div>
