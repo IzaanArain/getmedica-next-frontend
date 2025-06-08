@@ -39,7 +39,7 @@ const DoctorListingPage = () => {
         <div className="p-6">
             <h1 className="text-3xl">Doctors Listing</h1>
 
-            <form className="flex flex-col gap-5 mt-10 md:flex-row mb-8">
+            <form className="flex flex-col gap-5 mt-10 md:flex-row mb-6">
                 <Input type="text" placeholder="search" />
                 <Select>
                     <SelectTrigger className="w-[180px]">
@@ -53,17 +53,17 @@ const DoctorListingPage = () => {
                 </Select>
             </form>
 
-            <div className="flex flex-wrap gap-6 min-h-[600px] overflow-scroll">
+            <div className="flex flex-wrap gap-6 py-2 max-h-[600px] overflow-y-scroll">
                 {data?.map((doc: UserInterface, index: number) => (
-                    <Link key={`${doc._id}-${index}`} href={`/patient/book/${doc._id}`} className="w-full md:w-[40%] lg:w-[32%]">
+                    <Link key={`${doc._id}-${index}`} href={`/patient/book/${doc._id}`} className="w-full h-fit lg:w-[48%] 2xl:w-[32%]">
                         <Card className="py-4 gap-3">
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                     <div>
                                         <Image src={doctorImage} alt="doctor image" height={50} width={50} className="rounded-full" />
                                     </div>
-                                    <div className="flex flex-col gap-3">
-                                        <h1>Dr. {doc.name}</h1>
+                                    <div className="flex flex-col gap-1">
+                                        <h1 className="text-xl">Dr. {doc.name}</h1>
                                         <span className="font-light text-blue-500">{doc.specialization}</span>
                                     </div>
                                 </CardTitle>

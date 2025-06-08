@@ -24,9 +24,9 @@ const AppointmentPage = () => {
     
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-col gap-5 mt-10 md:flex-row mb-6">
         <h1 className="text-3xl">View Appointments</h1>
-        <form className="flex flex-col gap-5 mt-10 md:flex-row mb-8">
+        <form>
           <Select>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Theme" />
@@ -39,8 +39,8 @@ const AppointmentPage = () => {
           </Select>
         </form>
       </div>
-      <div className="flex flex-wrap gap-6 min-h-[600px] overflow-scroll">
-        {data?.map((item: AppointmentInterface, index: number) => (
+      <div className="flex flex-wrap gap-6 py-2 pr-4 max-h-[600px] overflow-y-scroll lg:px-0">
+        {data?.map((item: AppointmentInterface) => (
            <AppointmentCard key={item._id} data={item} />
         ))}
       </div>
