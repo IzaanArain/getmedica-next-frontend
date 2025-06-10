@@ -22,15 +22,16 @@ const AvailabilitySchedule = () => {
 
   useEffect(() => {
     if (data) {
-      const dataTransformed = data.map(({ day, slots }: DaySchedule) => ({
+      const dataTransformed = data.map(({ day, slots, ...rest }: DaySchedule) => ({
         day,
-        enabled: !!day,
         slots,
+        ...rest,
+        enabled: !!day,
       }));
       setSchedule((prev) =>
         prev.map((daySchedule) => {
           const matched = dataTransformed.find(
-            (day: DaySchedule) => day.day === daySchedule.day
+            (d: DaySchedule) => d.day === daySchedule.day
           );
           return matched ? matched : daySchedule;
         })
